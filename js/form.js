@@ -5,10 +5,18 @@ const botãoEnviar = document.querySelector("#adicionar-paciente") .addEventList
     var paciente = obtemPacienteDoFormulario(form);
     
     var pacienteTr = montarTr(paciente)
+    var erro = validaPaciente(paciente)
+    
+    if(erro.length > 0) {
+     var mensagemErro = document.querySelector("#mensagemErro")
+     mensagemErro.textContent = erro
+     
+     return;
+    }
 
     var tabela = document.querySelector("#tabela-pacientes");
 
-    tabela.appendChild(pacienteTr);
+    tabela.appendChild(pacienteTr)
     form.reset();
 
   });
@@ -44,4 +52,12 @@ function montarTd(data, classe) {
  td.classList.add(classe)
 
  return td;
+}
+
+function validaPaciente(paciente) {
+ if(validaPeso(paciente.peso)) {
+  return ""
+ }else {
+  return "O peso informado é inválido!"
+ }
 }
