@@ -1,25 +1,38 @@
-const botãoEnviar = document.querySelector("#adicionar-paciente") .addEventListener("click", function (event) {
+const botãoEnviar = document
+  .querySelector("#adicionar-paciente")
+  .addEventListener("click", function (event) {
     event.preventDefault();
 
     var form = document.querySelector("#form-adiciona");
     var paciente = obtemPacienteDoFormulario(form);
-    
-    var pacienteTr = montarTr(paciente)
-    var erro = validaPaciente(paciente)
-    
-    if(erro.length > 0) {
-     var mensagemErro = document.querySelector("#mensagemErro")
-     mensagemErro.textContent = erro
-     
-     return;
+
+    var pacienteTr = montarTr(paciente);
+    var erros = validaPaciente(paciente);
+    console.log(erros)
+
+    if (erros.length > 0) {
+      exibiMensagensDeErro(erros);
+      return;
     }
 
     var tabela = document.querySelector("#tabela-pacientes");
 
-    tabela.appendChild(pacienteTr)
+    tabela.appendChild(pacienteTr);
     form.reset();
-
+    var mensagensErro = document.querySelector("#mensagensErros")
+    mensagensErro.innerHTML = ""
   });
+
+function exibiMensagensDeErro(erros) {
+  var ul = document.querySelector("#mensagensErros");
+  ul.innerHTML = ""
+
+  erros.forEach(function (err) {
+    var li = document.createElement("li");
+    li.textContent = err;
+    ul.appendChild(li);
+  });
+}
 
 function obtemPacienteDoFormulario(form) {
   var paciente = {
@@ -43,21 +56,25 @@ function montarTr(paciente) {
   pacienteTr.appendChild(montarTd(paciente.gordura, "info-gordura"));
   pacienteTr.appendChild(montarTd(paciente.imc, "info-imc"));
 
-  return pacienteTr
+  return pacienteTr;
 }
 
 function montarTd(data, classe) {
- var td = document.createElement("td")
- td.textContent = data;
- td.classList.add(classe)
+  var td = document.createElement("td");
+  td.textContent = data;
+  td.classList.add(classe);
 
- return td;
+  return td;
 }
 
 function validaPaciente(paciente) {
- if(validaPeso(paciente.peso)) {
-  return ""
- }else {
-  return "O peso informado é inválido!"
- }
+  var erros = [];
+
+  if (!validaPeso(paciente.peso)) erros.push("Peso inválido");
+  if (!validaAltura(paciente.altura)) erros.push("Altura inválida");
+  if (paciente.nome.length == 0) erros.push("O nome não pode ser em branco")
+  if (paciente.peso.length == 0) erros.push("O peso não pode ser em branco")
+  if (paciente.gordura.length == 0) erros.push("A gordura não pode ser em branco")
+
+  return erros;
 }

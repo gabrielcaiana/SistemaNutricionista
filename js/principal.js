@@ -15,14 +15,12 @@ for (let paciente of pacientes) {
   var alturaEhValida = validaAltura(altura)
 
   if (!pesoEhValido) {
-    console.log("Peso inválido!");
     pesoEhValido = false;
     tdImc.textContent = "Peso inválido";
     paciente.classList.add("paciente-invalido");
   }
 
   if (!alturaEhValida) {
-    console.log("Altura inválida!");
     alturaEhValida = false;
     tdImc.textContent = "Altura inválida";
     paciente.classList.add("paciente-invalido");
