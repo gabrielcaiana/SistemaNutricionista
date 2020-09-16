@@ -5,8 +5,7 @@ const botãoEnviar = document
 
     var form = document.querySelector("#form-adiciona");
     var paciente = obtemPacienteDoFormulario(form);
-
-    var pacienteTr = montarTr(paciente);
+    
     var erros = validaPaciente(paciente);
     console.log(erros)
 
@@ -15,13 +14,19 @@ const botãoEnviar = document
       return;
     }
 
-    var tabela = document.querySelector("#tabela-pacientes");
+    adicionaPacienteNaTabela(paciente)
 
-    tabela.appendChild(pacienteTr);
     form.reset();
     var mensagensErro = document.querySelector("#mensagensErros")
     mensagensErro.innerHTML = ""
   });
+
+function adicionaPacienteNaTabela(paciente) {
+  var pacienteTr = montarTr(paciente);
+  var tabela = document.querySelector("#tabela-pacientes");
+  tabela.appendChild(pacienteTr);
+
+}
 
 function exibiMensagensDeErro(erros) {
   var ul = document.querySelector("#mensagensErros");
